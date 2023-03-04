@@ -1,0 +1,13 @@
+.tool-selector-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .tool-item {
+        width: 30px;
+        height: 30px;
+        margin-top: 20px;
+        &:hover {
+            background-color: rgb(230, 230, 230);
+        }
+    }
+}

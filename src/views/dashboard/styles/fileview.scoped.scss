@@ -1,0 +1,33 @@
+.file-view {
+    .top-tool-container {
+        height: 5vh;
+        // background-color: #d5d4d4;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        .add-new-area {
+            display: flex;
+            justify-content: center;
+            padding-left: 15px;
+            padding-right: 25px;
+            border-right: solid 1px #c6c6c6;
+        }
+        .filter-area {
+            padding-left: 25px;
+        }
+    }
+
+    .file-overview {
+        // height: 90vh;
+        padding-left: 20px;
+        .tool-area {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .file-display {
+            padding-top: 20px;
+        }
+    }
+}

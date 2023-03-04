@@ -1,0 +1,58 @@
+.graph-editor-page {
+    height: 100vh;
+    .top-row {
+        height: 25px;
+        border: solid 1px #dedede;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        font-size: 12px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .info {
+            display: flex;
+            .icon {
+                font-size: 16px;
+            }
+            .path {
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: solid 1px #dedede;
+            }
+            .zoom {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .blank {
+            }
+        }
+        .button {
+            float: right;
+        }
+    }
+    .edit-area {
+        display: flex;
+        height: calc(100% - 45px);
+        .tool-selector {
+            width: 45px;
+            border-right: solid 1px #dedede;
+        }
+        .graph-canvas {
+            width: calc(100% - 315px);
+            background-color: #dedede;
+        }
+        .property-config {
+            width: 270px;
+            border-left: solid 1px #dedede;
+            padding: 20px;
+            .config-title {
+                font-style: normal;
+                font-size: 24px;
+                line-height: 28px;
+                font-weight: 800;
+                color: #333;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}

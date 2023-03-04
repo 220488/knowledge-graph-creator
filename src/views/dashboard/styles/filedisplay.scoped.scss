@@ -1,0 +1,23 @@
+.file-display-container {
+    width: 260px;
+    border: solid 1px #dedede;
+    border-radius: 10px;
+    .image-area {
+        height: 150px;
+        border-bottom: solid 1px #dedede;
+    }
+    .text {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 10px;
+        .title {
+            color: #000000;
+            font-weight: 900;
+            font-size: 14px;
+        }
+        .time {
+            color: #c5c5c5;
+            font-weight: 400;
+            font-size: 12px;
+        }
+    }
+}
