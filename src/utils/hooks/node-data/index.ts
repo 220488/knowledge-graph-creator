@@ -8,7 +8,7 @@ import { nodeMockData } from "./mockData.ts"
 
  const useNodeData = () => {
     // todo: 初始化调借口，文件里拿初始数据
-     const [nodeData, setNodeData] = useState<NodeDataList>(nodeMockData)
+     const [nodeData, setNodeData] = useState<NodeDataList>([])
 
      return {
         nodeData,

@@ -5,6 +5,9 @@ import { Text } from '@styled-icons/evaicons-solid/Text'
 import styled from 'styled-components'
 import '../styles/tool-selector.scoped.scss'
 import useNodeData from "../../../utils/hooks/node-data/index.ts"
+import { useDispatch } from "react-redux"
+import { addNode } from "../../../redux/graphNodeData"
+import { addLine } from "../../../redux/graphLinkData"
 
 const GrayCircle = styled(Circle)`color: #333`
 const GrayArrow = styled(ArrowRight)`color: #333`
@@ -15,25 +18,22 @@ const ToolSelector: React.FC = () => {
         nodeData,
         setNodeData
     } = useNodeData()
+
+    const dispatch = useDispatch()
+
     /**
      * 点击icon触发的事件，这里为添加元素到画布上
      */
     const CLICK_EVENT = {
         addNode: () => {
-            const temp = nodeData
-            nodeData.push(
-                {
-                    index: 2,
-                    x: 200,
-                    y: 225,
-                    vy: 0.0005811239352359316,
-                    vx: 0.0005105059544353252,
-                }
+            dispatch(
+                addNode({})
             )
-            setNodeData(temp)
         },
         addLine: () => {
-
+            dispatch(
+                addLine({})
+            )
         },
         addText: () => {
 
