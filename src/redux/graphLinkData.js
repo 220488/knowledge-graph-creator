@@ -7,16 +7,41 @@ export const graphLinkSlice = createSlice({
         addLine: (state, action) => {
             const link = {
                 id: state.length,
-                x1: 200,
-                x2: 300,
-                y1: 225,
-                y2: 325,
+                source: action.payload.source,
+                des: action.payload.des,
+                x1: action.payload.x1,
+                x2: action.payload.x2,
+                y1: action.payload.y1,
+                y2: action.payload.y2,
+                text: "test"
             }
             state.push(link)
         },
-    },
+        setLineNewLocation: (state, action) => {
+            // 1.根据给的index，找出source和des含该点的线
+            // 2.将相应的(x, y)修改为新数据
+            // 3.返回新state
+            if (state.length > 0) {
+                state.map(function(link) {
+                    if (link.source === action.payload.id) {
+                        link.x1 = action.payload.x
+                        link.y1 = action.payload.y
+                    } else if (link.des === action.payload.id) {
+                        link.x2 = action.payload.x
+                        link.y2 = action.payload.y
+                    }
+                    return link
+                })
+            }
+        },
+        updateLinkText: (state, action) => {
+            const index = state.findIndex((link) => link.id === action.payload.id)
+            state[index].text = action.payload.text
+            console.log('update link text');
+        }
+    }
 })
 
-export const { addLine } = graphLinkSlice.actions
+export const { addLine, setLineNewLocation, updateLinkText } = graphLinkSlice.actions
 
 export default graphLinkSlice.reducer

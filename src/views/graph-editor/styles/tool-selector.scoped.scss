@@ -6,8 +6,12 @@
         width: 30px;
         height: 30px;
         margin-top: 20px;
-        &:hover {
-            background-color: rgb(230, 230, 230);
-        }
+    }
+
+    .tool-item-clicked {
+        width: 30px;
+        height: 30px;
+        margin-top: 20px;
+        background-color: rgb(230, 230, 230);
     }
 }

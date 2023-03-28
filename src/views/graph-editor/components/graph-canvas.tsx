@@ -1,25 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { Circle } from '@styled-icons/boxicons-regular/Circle'
-import { ArrowRight } from '@styled-icons/bootstrap/ArrowRight'
-import { Text } from '@styled-icons/evaicons-solid/Text'
-import styled from 'styled-components'
-import d3 from 'd3'
-// import drag from 'd3-drag'
-// import { drag } from "d3-drag"
-// import { selection } from "d3-selection"
-import { drag, select } from "d3"
-import { IGraphData, NodeDataList } from "../types/graph-editor"
+import { drag, select, forceSimulation, forceLink } from "d3"
 import '../styles/svg-element.scoped.scss'
-import { nodeMockData } from "../../../utils/hooks/node-data/mockData.ts"
-import ToolSelector from './tool-selector.tsx'
-import PropertyConfig from './property-config.tsx'
-import useNodeData from "../../../utils/hooks/node-data/index.ts"
 import { useDispatch, useSelector } from "react-redux"
 import { setNodeNewLocation } from "../../../redux/graphNodeData"
-
-const GrayCircle = styled(Circle)`color: #333`
-const GrayArrow = styled(ArrowRight)`color: #333`
-const GrayText = styled(Text)`color: #333`
+import { addLine, setLineNewLocation } from "../../../redux/graphLinkData"
+import { GRAPH_STATE_ENUM } from "../../../redux/types/index.ts"
+import { Update } from "styled-icons/material"
+import { setEditElement } from "../../../redux/editElementData"
 
 const GraphEditor = () => {
     const svgRef = useRef<SVGSVGElement>(null)
@@ -27,9 +14,12 @@ const GraphEditor = () => {
     const dispatch = useDispatch()
     const node = useSelector((state) => state.node)
     const link = useSelector((state) => state.link)
-    console.log('nodedata', node);
-    console.log('link', link);
+    const currentState = useSelector((state) => state.graphState)
+    // console.log('nodedata', node);
+    // console.log('link', link);
+    console.log('currentState', currentState);
     
+    const [ linkSource, setLinkSource] = useState({})
 
     const svgSelection = select('#svg')
 
@@ -38,66 +28,189 @@ const GraphEditor = () => {
         RenderLink(link)
     }, [node, link])
 
+    useEffect(() => {
+        // 等待下一次点击并且获得值
+        // svgSelection.selectAll('circle').on('click', setLinkDesInfo)
+        svgSelection.select('#node').selectAll('g').on('click', setLinkDesInfo)
+    }, [linkSource])
+
+    useEffect(() => {
+        if (currentState === GRAPH_STATE_ENUM.ADD_NODE) {
+            svgSelection.select("#node").selectAll("g").on('click', null).on('dblclick', null)
+            svgSelection.select("#link").selectAll("g").on('click', null)
+        } else if (currentState === GRAPH_STATE_ENUM.ADD_LINE) {
+            svgSelection.select("#node").selectAll("g").on('click', null).on('dblclick', setLinkSourceInfo)
+            svgSelection.select("#link").selectAll("g").on('click', null)
+        } else if (currentState === GRAPH_STATE_ENUM.EDIT) {
+            svgSelection.select("#node").selectAll("g").on('click', setNodeConfigListener).on('dblclick', null)
+            svgSelection.select("#link").selectAll("g").on('click', setLinkConfigListener)
+        }
+    }, [currentState])
+
+    function setNodeConfigListener (event, d) {
+        console.log('listen node');
+          
+        dispatch(
+            setEditElement({
+                id: d.id,
+                type: 'node'
+            })
+        )    
+    }
+
+    function setLinkConfigListener (event, d) {
+        console.log('listen link');
+        dispatch(
+            setEditElement({
+                id: d.id,
+                type: 'link'
+            })
+        )    
+    }
+
+    function setLinkDesInfo (event, d) {
+        select(this).selectChild("circle").attr('stroke', '#9e6faf').attr('stroke-width', 3)
+        const linkInfo = Object.assign(linkSource, {
+            des: d.id,
+            x2: d.x,
+            y2: d.y,
+        })
+        dispatch(
+            addLine(linkInfo)
+        )
+        svgSelection.selectAll('g').on('click', null)
+    }
+
+    function setLinkSourceInfo (event, d) {        
+        select(this).selectChild("circle").attr('stroke', '#777').attr('stroke-width', 3)        
+        setLinkSource({
+            source: d.id,
+            x1: d.x,
+            y1: d.y,
+        })
+        
+        // if (currentState === GRAPH_STATE_ENUM.ADD_LINE) {
+        //     // adding-line模式添加线
+        //     console.log("adding");
+            
+        //     select(this).selectChild("circle").attr('stroke', '#777').attr('stroke-width', 3)        
+        //     setLinkSource({
+        //         source: d.id,
+        //         x1: d.x,
+        //         y1: d.y,
+        //     })
+        // } else if (currentState === GRAPH_STATE_ENUM.EDIT) {
+        //     // 编辑模式打开属性设置框
+        // }
+    }
+
     const RenderNode = (node) => {
-        svgSelection.selectAll('circle')
+        svgSelection.select('#node')
+                    .selectAll('g')
                     .data(node)
-                    .enter()
-                    .insert("circle")
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y)
-                    .attr("r", 36)
-                    .attr("fill", "orange")
-                    .attr('id', getRandomID())
+                    .attr('id', d => d.id)
+                    .join(
+                        function (enter) {
+                            const enterSelection = enter.insert("g")
+                            enterSelection.insert("circle").attr("cx", d => d.x).attr("cy", d => d.y).attr("r", 36).attr("fill", "orange")
+                            enterSelection.insert("text").text(d => d.text).attr('fill', 'black').attr('x', d => d.x).attr('y', d => d.y)
+                            // enter.selectAll("g").call(dragEvent()).on('dblclick', setLinkSourceInfo, {}).on('click', setNodeConfigListener)
+                            return enter.selectAll("g")
+                        },
+                        function (update) {
+                            update.selectChild("text").text(d => d.text).attr('fill', 'black').attr('x', d => d.x).attr('y', d => d.y)
+                            return update.selectAll("g")
+                        },
+                        function (exit) {
+                            return exit.remove()
+                        }
+                        // enter => enter.insert("g").insert("circle"),
+                        // update => update.selectChild("circle"),
+                        // exit => exit.remove(),
+                    )
                     .call(dragEvent())
+                    .on('dblclick', setLinkSourceInfo)
     }
 
     const RenderLink = (link) => {
-        svgSelection.selectAll('circle')
+        // console.log('update-link', link);
+        svgSelection.select('#link')
+                    .selectAll('g')
                     .data(link)
-                    .enter()
-                    .insert("line")
-                    .attr("x1", d => d.x1)
-                    .attr("x2", d => d.x2)
-                    .attr("y1", d => d.y1)
-                    .attr("y1", d => d.y1)
-                    .attr('stroke', '#333')
-                    .attr('stroke-width', 2)
-                    .attr('id', getRandomID())
+                    .join(
+                        function (enter) {
+                            const enterSelection = enter.insert("g")
+                            enterSelection.insert("line")
+                                          .attr("x1", function (d) { return d.x1 })
+                                          .attr("x2", function (d) { return d.x2 })
+                                          .attr("y1", function (d) { return d.y1 })
+                                          .attr("y2", function (d) { return d.y2 })
+                                          .attr('stroke', '#333')
+                                          .attr('stroke-width', 2)
+                            enterSelection.insert("text").text(d => d.text).attr('fill', 'black')
+                                          .attr("x", function (d) {
+                                            return (d.x1 + d.x2) / 2
+                                          })
+                                          .attr("y", function (d) {
+                                            return (d.y1 + d.y2) / 2
+                                          })
+                            return enter.selectAll("g")
+                        },
+                        function (update) {
+                            // console.log('update', update.selectChild("line"))
+                            update.selectChild("line")
+                                  .attr("x1", function (d) { return d.x1 })
+                                  .attr("x2", function (d) { return d.x2 })
+                                  .attr("y1", function (d) { return d.y1 })
+                                  .attr("y2", function (d) { return d.y2 })
+                                  .attr('stroke', '#333')
+                                  .attr('stroke-width', 2)
+                            update.selectChild("text").text(d => d.text).attr('fill', 'black')
+                                  .attr('x', function (d) {
+                                    return (d.x1 + d.x2) / 2
+                                  })
+                                  .attr('y', function (d) {
+                                    return (d.y1 + d.y2) / 2
+                                  })
+                            return update.selectAll("g")
+                        },
+                        exit => exit.remove()
+                    )
     }
 
     function dragStart (event, d) {
-        select(this).attr('stroke', 'black')
+        select(this).selectChild("circle").attr('stroke', 'black')
         event.on('drag', dragProcess).on('end', dragEnd)
 
-        function dragProcess (event, d) {
+        function dragProcess (event, d) {            
             d = {
                 id: d.id,
                 x: event.x,
-                y: event.y
+                y: event.y,
             }
-            select(this).attr('cx', d.x = event.x).attr('cy', d.y= event.y)
+            select(this).selectChild("circle").attr('cx', d.x = event.x).attr('cy', d.y= event.y)
+            select(this).selectChild("text").attr('x', d.x = event.x).attr('y', d.y= event.y)
         }
 
-        // 拖拽结束，把新的位置dispatch回去
+        // 拖拽结束，把新的位置状态传递回去
         function dragEnd (event, d) {
-            select(this).attr('stroke', 'none')
+            select(this).selectChild("circle").attr('stroke', 'none')
             d = {
                 id: d.id,
                 x: event.x,
-                y: event.y
+                y: event.y,
             }
             dispatch(
                 setNodeNewLocation(d)
             )
+
+            dispatch(
+                setLineNewLocation(d)
+            )
         }
     }
 
-
-
-
     function dragEvent () {
-        console.log('drag');
-        
         return drag()
             .on("start", dragStart)
     }
@@ -108,19 +221,6 @@ const GraphEditor = () => {
     const getRandomID = () => {
         return Math.random().toString(36).slice(-6)
     }
-
-    const RenderGraph = useCallback(() => {
-        svgSelection.selectAll('circle')
-                    .data(node)
-                    .enter()
-                    .insert("circle")
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y)
-                    .attr("r", 36)
-                    .attr("fill", "orange")
-                    .attr('id', getRandomID())
-                    .call(dragEvent())
-    }, [node])
                           
     /**
      * 选择元素
@@ -135,6 +235,8 @@ const GraphEditor = () => {
             width={1000}
             height={1000}
             >
+                <g id="link"></g>
+                <g id="node"></g>
             </svg>
         </div>
     )

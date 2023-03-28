@@ -6,12 +6,16 @@ import GraphEditor from "./components/graph-canvas.tsx"
 import ToolSelector from "./components/tool-selector.tsx"
 import PropertyConfig from "./components/property-config.tsx"
 import useNodeData from "../../utils/hooks/node-data/index.ts"
+import { useSelector } from "react-redux"
+import { GRAPH_STATE_ENUM } from "../../redux/types/index.ts"
 
 const GraphEditorPage = () => {
     const {
         nodeData,
         setNodeData
     } = useNodeData()
+
+    const currentState = useSelector((state) => state.graphState)
     
     return (
         <div className="graph-editor-page">
@@ -28,13 +32,17 @@ const GraphEditorPage = () => {
                 <div className="tool-selector">
                     <ToolSelector/>
                 </div>
-                <div className="graph-canvas">
+                <div className="graph-canvas" style={currentState === GRAPH_STATE_ENUM.EDIT ? {} : { width: '100%' }}>
                     <GraphEditor node={nodeData}/>
                 </div>
-                <div className="property-config">
-                    <div className="config-title">设置</div>
-                    <PropertyConfig elementType={0}/>
-                </div>
+                {
+                    currentState === GRAPH_STATE_ENUM.EDIT && (
+                    <div className="property-config">
+                        <div className="config-title">设置</div>
+                        <PropertyConfig elementType={0}/>
+                    </div>
+                    )
+                }
             </div>
         </div>
     )
