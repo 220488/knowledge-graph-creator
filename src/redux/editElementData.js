@@ -4,7 +4,7 @@ export const editElementSlice = createSlice({
     name: 'editElement',
     initialState: {
         type: '',
-        id: -1,
+        id: "",
     },
     reducers: {
         setEditElement: (state, action) => {

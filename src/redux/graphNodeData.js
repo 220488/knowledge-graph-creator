@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getUUID } from '../utils/uuid-generator'
 
 export const graphNodeSlice = createSlice({
     name: 'node',
@@ -6,12 +7,21 @@ export const graphNodeSlice = createSlice({
     reducers: {
         addNode: (state, action) => {
             const node = {
-                id: state.length,
+                id: getUUID(),
                 x: 200,
                 y: 225,
                 text: 'test1',
+                relationList: [],
             }
             state.push(node)
+        },
+        deleteNode: (state, action) => {
+            return state.filter((item) => action.payload.id !== item.id)
+        },
+        addNodeRelationLink: (state, action) => {
+            const index = state.findIndex((node) => node.id === action.payload.id)
+            // state[index].relationList.push(action.payload.nodeId)
+            action.payload.nodeId.map((item) => state[index].relationList.push(item))
         },
         setNodeNewLocation: (state, action) => {
             const index = state.findIndex((node) => node.id === action.payload.id)
@@ -26,6 +36,6 @@ export const graphNodeSlice = createSlice({
     }
 })
 
-export const { addNode, setNodeNewLocation, updateNodeText } = graphNodeSlice.actions
+export const { addNode, deleteNode, setNodeNewLocation, updateNodeText, addNodeRelationLink } = graphNodeSlice.actions
 
 export default graphNodeSlice.reducer

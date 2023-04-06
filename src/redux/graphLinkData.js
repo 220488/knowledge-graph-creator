@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getUUID } from '../utils/uuid-generator'
 
 export const graphLinkSlice = createSlice({
     name: 'link',
@@ -6,7 +7,7 @@ export const graphLinkSlice = createSlice({
     reducers: {
         addLine: (state, action) => {
             const link = {
-                id: state.length,
+                id: getUUID(),
                 source: action.payload.source,
                 des: action.payload.des,
                 x1: action.payload.x1,
@@ -16,6 +17,9 @@ export const graphLinkSlice = createSlice({
                 text: "test"
             }
             state.push(link)
+        },
+        deleteLine: (state, action) => {
+            return state.filter((node) => node.id !== action.payload.id)
         },
         setLineNewLocation: (state, action) => {
             // 1.根据给的index，找出source和des含该点的线
@@ -42,6 +46,6 @@ export const graphLinkSlice = createSlice({
     }
 })
 
-export const { addLine, setLineNewLocation, updateLinkText } = graphLinkSlice.actions
+export const { addLine, deleteLine, setLineNewLocation, updateLinkText } = graphLinkSlice.actions
 
 export default graphLinkSlice.reducer

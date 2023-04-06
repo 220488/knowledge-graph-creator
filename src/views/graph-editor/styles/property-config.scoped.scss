@@ -1,0 +1,49 @@
+.config-container {
+    .triple-table {
+        height: 40vh;
+        padding-bottom: 20px;
+        .triple-item-row {
+            display: flex;
+            align-items: center;
+            column-gap: 4px;
+            .column {
+                width: 70px;
+                margin-top: 5px;
+                .text{
+                    height: 32px;
+                    line-height: 32px;
+                    // border: 1px solid #aeaeae;
+                    border-radius: 6px;
+                    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .divider {
+        width: 100%;
+        height: 1px;
+        background-color: rgb(192, 192, 192);
+    }
+    .node-pool {
+        padding-top: 20px;
+        height: 50vh;
+        .node-item-row {
+            display: flex;
+            align-items: center;
+            column-gap: 4px;
+            .column {
+                width: 150px;
+                margin-top: 5px;
+                .text{
+                    height: 32px;
+                    line-height: 32px;
+                    // border: 1px solid #aeaeae;
+                    border-radius: 6px;
+                    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

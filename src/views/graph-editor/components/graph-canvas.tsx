@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { drag, select, forceSimulation, forceLink } from "d3"
 import '../styles/svg-element.scoped.scss'
 import { useDispatch, useSelector } from "react-redux"
-import { setNodeNewLocation } from "../../../redux/graphNodeData"
+import { addNodeRelationLink, setNodeNewLocation } from "../../../redux/graphNodeData"
 import { addLine, setLineNewLocation } from "../../../redux/graphLinkData"
 import { GRAPH_STATE_ENUM } from "../../../redux/types/index.ts"
 import { Update } from "styled-icons/material"
@@ -77,6 +77,12 @@ const GraphEditor = () => {
         })
         dispatch(
             addLine(linkInfo)
+        )
+        // 关联node里也要记录
+        dispatch(
+            addNodeRelationLink({
+                nodeId: [linkInfo.source, linkInfo.des]
+            })
         )
         svgSelection.selectAll('g').on('click', null)
     }
