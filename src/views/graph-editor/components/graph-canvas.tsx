@@ -15,11 +15,11 @@ const GraphEditor = () => {
     const node = useSelector((state) => state.node)
     const link = useSelector((state) => state.link)
     const currentState = useSelector((state) => state.graphState)
-    // console.log('nodedata', node);
-    // console.log('link', link);
-    console.log('currentState', currentState);
+    console.log('nodedata', node);
+    console.log('linkdata', link);
     
     const [ linkSource, setLinkSource] = useState({})
+    
 
     const svgSelection = select('#svg')
 
@@ -68,19 +68,22 @@ const GraphEditor = () => {
         )    
     }
 
-    function setLinkDesInfo (event, d) {
+    async function setLinkDesInfo (event, d) {
         select(this).selectChild("circle").attr('stroke', '#9e6faf').attr('stroke-width', 3)
         const linkInfo = Object.assign(linkSource, {
             des: d.id,
             x2: d.x,
             y2: d.y,
         })
-        dispatch(
+        await dispatch(
             addLine(linkInfo)
         )
+        console.log('1', link);
+        
         // 关联node里也要记录
-        dispatch(
+        await dispatch(
             addNodeRelationLink({
+                linkId: link.at(-1)?.id,
                 nodeId: [linkInfo.source, linkInfo.des]
             })
         )

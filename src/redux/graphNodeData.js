@@ -15,13 +15,28 @@ export const graphNodeSlice = createSlice({
             }
             state.push(node)
         },
-        deleteNode: (state, action) => {
-            return state.filter((item) => action.payload.id !== item.id)
+        deleteNode: {
+            reducer (state, action) {
+                return state.filter((item) => action.payload.id !== item.id)
+            },
+            prepare (id) {
+                return {
+                    payload: {
+                        id
+                    }
+                }
+            }
         },
         addNodeRelationLink: (state, action) => {
-            const index = state.findIndex((node) => node.id === action.payload.id)
+            console.log('payload', action.payload.nodeId)
+            // const index = state.findIndex((node) => node.id === action.payload.id)
             // state[index].relationList.push(action.payload.nodeId)
-            action.payload.nodeId.map((item) => state[index].relationList.push(item))
+            // action.payload.nodeId.map((item) => state[index].relationList.push(item))
+            action.payload.nodeId.map((nodeId) => {
+                console.log('item', nodeId)
+                const index = state.findIndex((node) => node.id === nodeId)
+                state[index].relationList.push(action.payload.linkId)
+            })
         },
         setNodeNewLocation: (state, action) => {
             const index = state.findIndex((node) => node.id === action.payload.id)
@@ -31,7 +46,6 @@ export const graphNodeSlice = createSlice({
         updateNodeText: (state, action) => {
             const index = state.findIndex((node) => node.id === action.payload.id)
             state[index].text = action.payload.text
-            console.log('update node text');
         }
     }
 })
