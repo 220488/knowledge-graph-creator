@@ -47,8 +47,8 @@ const NodeItem: React.FC<INodeItemProps> = (props) => {
                     editStatus ? <Input placeholder="..." value={nodeInfo?.text} onChange={nodeChangeHandler}></Input> : <div className="text">{nodeInfo?.text}</div>
                 }
             </div>
-            <Button type="primary" onClick={() => setEditStatus(prev => !prev)}>{editStatus ? '保存' : '编辑'}</Button>
-            <Button type="primary" danger onClick={nodeDeleteHandler}>删除</Button>
+            <Button type="primary" onClick={() => setEditStatus(prev => !prev)}>{editStatus ? 'save' : 'edit'}</Button>
+            <Button type="primary" danger onClick={nodeDeleteHandler}>delete</Button>
         </div>
     )
 }

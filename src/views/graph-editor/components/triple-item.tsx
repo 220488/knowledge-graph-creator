@@ -92,8 +92,8 @@ const TripleItem: React.FC<ITripleItemProps> = (props) => {
                 editStatus ? <Input placeholder="..." value={node[tailNodeIndex].text} onChange={tailNodeChangeHandle}></Input> : <div className="text">{node[tailNodeIndex].text}</div>
             }
             </div>
-            <Button type="primary" onClick={EditButtonHandler}>{editStatus ? '保存' : '编辑'}</Button>
-            <Button type="primary" danger onClick={deleteHandler}>删除</Button>
+            <Button type="primary" onClick={EditButtonHandler}>{editStatus ? 'save' : 'edit'}</Button>
+            <Button type="primary" danger onClick={deleteHandler}>delete</Button>
         </div>
     )
 }

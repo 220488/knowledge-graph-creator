@@ -61,14 +61,14 @@ const GraphEditorPage = () => {
             <div className="top-row">
                 <div className="info">
                     <MenuOutlined className="icon" />
-                    <div className="path">个人中心 / 流进中国的河流</div>
+                    <div className="path">Me / untitled</div>
                     <div className="zoom">70%</div>
                     <div className="blank"></div>
                 </div>
                 <Button type="primary" className="button" onClick={onClickHandler}>
                     <a href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(fileDataObject))}`}
                         download={`test.json`}
-                    >导出</a>
+                    >export</a>
                 </Button>
             </div>
             <div className="edit-area">
@@ -81,7 +81,7 @@ const GraphEditorPage = () => {
                 {
                     currentState === GRAPH_STATE_ENUM.EDIT && (
                     <div className="property-config">
-                        <div className="config-title">设置</div>
+                        <div className="config-title">Edit</div>
                         <PropertyConfig elementType={0}/>
                     </div>
                     )

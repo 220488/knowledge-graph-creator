@@ -8,8 +8,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<DashBoard/>}/>
-        <Route path='/graph' element={<GraphEditorPage/>}/>
+        <Route path='/dashboard' element={<DashBoard/>}/>
+        <Route path='' element={<GraphEditorPage/>}/>
       </Routes>
     </BrowserRouter>
   );

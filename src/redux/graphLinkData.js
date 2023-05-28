@@ -14,7 +14,7 @@ export const graphLinkSlice = createSlice({
                 x2: action.payload.x2,
                 y1: action.payload.y1,
                 y2: action.payload.y2,
-                text: "新建"
+                text: "text"
             }
             state.push(link)
         },

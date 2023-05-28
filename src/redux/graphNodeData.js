@@ -10,7 +10,7 @@ export const graphNodeSlice = createSlice({
                 id: getUUID(),
                 x: 200,
                 y: 225,
-                text: '新建',
+                text: 'text',
                 relationList: [],
             }
             state.push(node)

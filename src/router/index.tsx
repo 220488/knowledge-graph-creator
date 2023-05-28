@@ -9,7 +9,7 @@ import GraphEditor from "../views/graph-editor"
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/dashboard",
         element: <DashBoard/>,
         loader: async ({ request, params}) => {
             return fetch(
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         }
     },
     {
-        path: "/graph/:graphId",
+        path: "/",
         element: <GraphEditor/>,
         loader: async ({ request, params}) => {
             return fetch(
@@ -26,8 +26,4 @@ const router = createBrowserRouter([
             )
         }
     },
-    {
-        path: "/drag",
-        element: <DragSVG/>,
-    }
 ])
