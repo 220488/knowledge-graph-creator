@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react"
+
 /**
  * dashborad新建工具列表
  * 0: 新建文件夹
@@ -15,9 +17,12 @@ export type IAddNewToolProps = {
     index: number,
     comment: string,
     icon: string,
-    target: string,
+    onClick: MouseEventHandler,
 }
 
 export type IFileDisplayProps = {
-    
+    title: string,
+    createTime: Date,
+    imageUrl: string,
+    folder: string
 }

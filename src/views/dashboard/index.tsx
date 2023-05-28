@@ -4,10 +4,13 @@ import type { MenuProps } from "antd"
 import { Divider } from "rc-menu"
 import FileView from "./components/file-overview.tsx"
 import './styles/index.scoped.scss'
+import { useSelector } from "react-redux"
+import logo from './styles/logo.jpg'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const DashBoard = () => {
+    const menuItems: MenuProps['items'] = useSelector((state) => state.folder)
     /**
      * 获取菜单栏item
      */
@@ -30,15 +33,18 @@ const DashBoard = () => {
     /**
      * 菜单栏选项
      */
-    const menuItems: MenuProps['items'] = [
-        getMenuItem('最近打开', 'last-open-file', null,
-            [
-                getMenuItem('item1', 'i1'),
-                getMenuItem('item2', 'i2'),
-            ]
-        ),
-        getMenuItem('全部分组', 'all-group'), null,
-    ]
+    // const menuItems: MenuProps['items'] = [
+    //     getMenuItem('新建分组', 'last-open-file', null,
+    //         [
+    //             getMenuItem('item1', 'i1'),
+    //             getMenuItem('item2', 'i2'),
+    //         ]
+    //     ),
+    //     getMenuItem('新建分组2', 'all-group', null, [
+    //         getMenuItem('测试分组1', 't1'),
+    //         getMenuItem('测试分组2', 't2'),
+    //     ])
+    // ]
 
     /**
      * 左侧导航栏点击函数
@@ -49,7 +55,10 @@ const DashBoard = () => {
     return (
         <div className="dashboard">
             <div className="left-side">
-                <div className="logo-area"></div>
+                <div className="logo-area">
+                    <img src={logo} width={40} height={40} style={{ marginTop: '5px', marginLeft: '20px'}}></img>
+                    <div className="title">Schema 工作台</div>
+                </div>
                 <div className="group-division">
                     <Menu
                         onClick={onMenuClick}

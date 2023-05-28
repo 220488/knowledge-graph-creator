@@ -10,11 +10,11 @@ const AddNewTool: React.FC<IAddNewToolProps> = (props: IAddNewToolProps) => {
         index,
         comment,
         icon,
-        target,
+        onClick,
     } = props
     
     return (
-        <div className="add-tool-container">
+        <div className="add-tool-container" onClick={onClick}>
             <FolderAddTwoTone className="icon-left"/>
             <div className="text">
                 <div style={{ fontWeight: 900, marginBottom: '3px' }}>{name}</div>

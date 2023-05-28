@@ -11,10 +11,20 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <DashBoard/>,
+        loader: async ({ request, params}) => {
+            return fetch(
+                ``,
+            )
+        }
     },
     {
-        path: "/graph",
+        path: "/graph/:graphId",
         element: <GraphEditor/>,
+        loader: async ({ request, params}) => {
+            return fetch(
+                ``,
+            )
+        }
     },
     {
         path: "/drag",

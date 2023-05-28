@@ -38,7 +38,8 @@
             border-right: solid 1px #dedede;
         }
         .graph-canvas {
-            width: calc(100% - 315px);
+            // width: calc(100% - 315px);
+            width: 100%;
             background-color: #dedede;
         }
         .property-config {

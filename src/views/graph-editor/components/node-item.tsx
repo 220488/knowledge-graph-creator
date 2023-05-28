@@ -24,8 +24,6 @@ const NodeItem: React.FC<INodeItemProps> = (props) => {
     }, [nodeInfo, dispatch])
 
     const nodeDeleteHandler = useCallback(() => {
-        console.log('nodeInfo', nodeInfo)
-        
         nodeInfo?.relationList.map((item) => {
             dispatch(
                 deleteLine({
@@ -33,10 +31,13 @@ const NodeItem: React.FC<INodeItemProps> = (props) => {
                 })
             )
         })
-        console.log('link', nodeInfo?.relationList)
-        // dispatch(
-        //     deleteNode(nodeInfo?.id)
-        // )
+        console.log('nodeInfo', nodeInfo.relationList);
+        
+        dispatch(
+            deleteNode({
+                id: nodeInfo?.id
+            })
+        )
     }, [nodeInfo, dispatch])
 
     return (

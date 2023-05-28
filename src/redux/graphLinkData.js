@@ -7,19 +7,20 @@ export const graphLinkSlice = createSlice({
     reducers: {
         addLine: (state, action) => {
             const link = {
-                id: getUUID(),
+                id: action.payload.id,
                 source: action.payload.source,
                 des: action.payload.des,
                 x1: action.payload.x1,
                 x2: action.payload.x2,
                 y1: action.payload.y1,
                 y2: action.payload.y2,
-                text: "test"
+                text: "新建"
             }
             state.push(link)
         },
         deleteLine: (state, action) => {
-            return state.filter((node) => node.id !== action.payload.id)
+            console.log('delete', action);
+            return state.filter((link) => link.id !== action.payload.id)
         },
         setLineNewLocation: (state, action) => {
             // 1.根据给的index，找出source和des含该点的线

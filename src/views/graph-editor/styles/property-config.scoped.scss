@@ -1,6 +1,6 @@
 .config-container {
     .triple-table {
-        height: 40vh;
+        min-height: 40vh;
         padding-bottom: 20px;
         .triple-item-row {
             display: flex;
@@ -27,7 +27,7 @@
     }
     .node-pool {
         padding-top: 20px;
-        height: 50vh;
+        min-height: 50vh;
         .node-item-row {
             display: flex;
             align-items: center;

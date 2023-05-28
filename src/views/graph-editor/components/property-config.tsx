@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { ELEMENT_TYPE, IPropertyConfigProps } from "../types/property-config.ts"
 import NodeItem from "./node-item.tsx"
 import TripleItem from "./triple-item.tsx"
+import '../styles/property-config.scoped.scss'
 
 const PropertyConfig: React.FC<IPropertyConfigProps> = (props) => {
     // const element = useSelector((state) => state.editElement)

@@ -7,6 +7,7 @@ import { addLine, setLineNewLocation } from "../../../redux/graphLinkData"
 import { GRAPH_STATE_ENUM } from "../../../redux/types/index.ts"
 import { Update } from "styled-icons/material"
 import { setEditElement } from "../../../redux/editElementData"
+import { getUUID } from "../../../utils/uuid-generator"
 
 const GraphEditor = () => {
     const svgRef = useRef<SVGSVGElement>(null)
@@ -48,8 +49,6 @@ const GraphEditor = () => {
     }, [currentState])
 
     function setNodeConfigListener (event, d) {
-        console.log('listen node');
-          
         dispatch(
             setEditElement({
                 id: d.id,
@@ -59,7 +58,6 @@ const GraphEditor = () => {
     }
 
     function setLinkConfigListener (event, d) {
-        console.log('listen link');
         dispatch(
             setEditElement({
                 id: d.id,
@@ -70,20 +68,20 @@ const GraphEditor = () => {
 
     async function setLinkDesInfo (event, d) {
         select(this).selectChild("circle").attr('stroke', '#9e6faf').attr('stroke-width', 3)
+        const linkId = getUUID()
         const linkInfo = Object.assign(linkSource, {
             des: d.id,
             x2: d.x,
             y2: d.y,
+            id: linkId,
         })
         await dispatch(
             addLine(linkInfo)
         )
-        console.log('1', link);
-        
-        // 关联node里也要记录
-        await dispatch(
+        // 关联node里也要记录，还差个参数，link的id
+        dispatch(
             addNodeRelationLink({
-                linkId: link.at(-1)?.id,
+                linkId: linkId,
                 nodeId: [linkInfo.source, linkInfo.des]
             })
         )

@@ -6,3 +6,18 @@ export interface ITripleItemProps {
     relationLinkId: number,
     tailNodeId: number
 }
+
+export interface ITripleLabelItem {
+    ThreeHeadLabel: {
+        entityLabelId: string,
+        entityLabel: string,
+    },
+    ThreeRelationLabel: {
+        relationLabel: string,
+        relationLabelId: string,
+    },
+    ThreeTailLabel: {
+        entityLabelId: string,
+        entityLabel: string,
+    } 
+}

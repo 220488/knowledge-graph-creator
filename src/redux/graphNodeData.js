@@ -10,7 +10,7 @@ export const graphNodeSlice = createSlice({
                 id: getUUID(),
                 x: 200,
                 y: 225,
-                text: 'test1',
+                text: '新建',
                 relationList: [],
             }
             state.push(node)
@@ -28,13 +28,8 @@ export const graphNodeSlice = createSlice({
             }
         },
         addNodeRelationLink: (state, action) => {
-            console.log('payload', action.payload.nodeId)
-            // const index = state.findIndex((node) => node.id === action.payload.id)
-            // state[index].relationList.push(action.payload.nodeId)
-            // action.payload.nodeId.map((item) => state[index].relationList.push(item))
-            action.payload.nodeId.map((nodeId) => {
-                console.log('item', nodeId)
-                const index = state.findIndex((node) => node.id === nodeId)
+            action.payload.nodeId.map((item) => {
+                const index = state.findIndex((node) => node.id === item)
                 state[index].relationList.push(action.payload.linkId)
             })
         },
