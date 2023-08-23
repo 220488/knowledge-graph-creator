@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUUID } from '../utils/uuid-generator'
 
 export const graphLinkSlice = createSlice({
     name: 'link',
