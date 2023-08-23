@@ -5,6 +5,9 @@
     .image-area {
         height: 150px;
         border-bottom: solid 1px #dedede;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .text {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

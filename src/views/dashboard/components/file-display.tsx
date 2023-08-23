@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { IFileDisplayProps } from "../types/dashboard"
-import graphUrl from '../styles/graph.png'
+import graphUrl from '../styles/logo.jpg'
 import '../styles/filedisplay.scoped.scss'
 import { redirect } from "react-router-dom"
 
 const FileDisplay: React.FC<IFileDisplayProps> = (props: IFileDisplayProps) => {
-    console.log(graphUrl);
     
     const {
         title,
@@ -21,7 +20,7 @@ const FileDisplay: React.FC<IFileDisplayProps> = (props: IFileDisplayProps) => {
     return (
         <div className="file-display-container" onClick={jumpToEditor}>
             <div className="image-area">
-                <img src={graphUrl} height={150}></img>
+                <img src={graphUrl} height={120}></img>
             </div>
             <div className="text">
                 <div className="title">{title}</div>
